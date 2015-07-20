@@ -1,25 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en_us">
 <head>
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="//blog.alexandrevicenzi.com/theme/css/style.min.css">
   <link rel="stylesheet" type="text/css" href="//blog.alexandrevicenzi.com/theme/css/pygments.min.css">
   <link rel="stylesheet" type="text/css" href="//blog.alexandrevicenzi.com/theme/css/font-awesome.min.css">
-  <link href="//blog.alexandrevicenzi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Vicenzi's Blog Atom" />
+  <link href="//blog.alexandrevicenzi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Vicenzi's Blog Atom">
 
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Alexandre Vicenzi">
-  <meta name="description" content="Alexandre Vicenzi's Thoughts and Writings">
-  <title>Alexandre Vicenzi's Blog&ndash; Nunjucks eval tag</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+<meta name="author" content="Alexandre Vicenzi" />
+<meta name="description" content="This week I started to work in Gistfy project again, and one of the changes is replace swig by Nunjucks. swig is no longer maintained, and Nunjucks looks a really cool project. I like Nunjucks because it has a Django like template engine. In fact, Nunjucks is a port of ..." />
 <meta name="keywords" content="nunjucks, eval, jinja2">
+<meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
+<meta property="og:title" content="Nunjucks eval tag"/>
+<meta property="og:description" content="This week I started to work in Gistfy project again, and one of the changes is replace swig by Nunjucks. swig is no longer maintained, and Nunjucks looks a really cool project. I like Nunjucks because it has a Django like template engine. In fact, Nunjucks is a port of ..."/>
+<meta property="og:locale" content="en_us"/>
+<meta property="og:url" content="//blog.alexandrevicenzi.com/nunjucks-eval.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-07-11 08:00:00-03:00"/>
+<meta property="article:modified_time" content="2015-07-11 08:00:00-03:00"/>
+<meta property="article:author" content="//blog.alexandrevicenzi.com/author/alexandre-vicenzi.html">
+<meta property="article:section" content="NodeJS"/>
+<meta property="article:tag" content="nunjucks"/>
+<meta property="article:tag" content="eval"/>
+<meta property="article:tag" content="jinja2"/>
+<meta property="og:image" content="http://alexandrevicenzi.com/img/profile.png">
+  <title>Alexandre Vicenzi's Blog&ndash; Nunjucks eval tag</title>
 </head>
 <body>
   <aside>
     <div class="profile">
       <a href="//blog.alexandrevicenzi.com">
-        <img src="//alexandrevicenzi.com/img/profile.png" alt="Alexandre Vicenzi" title="Alexandre Vicenzi">
+        <img src="http://alexandrevicenzi.com/img/profile.png" alt="Alexandre Vicenzi" title="Alexandre Vicenzi">
       </a>
       <h1><a href="//blog.alexandrevicenzi.com">Alexandre Vicenzi</a></h1>
       <p>Web Developer - Maker</p>
@@ -95,24 +109,24 @@
 </article>
 
     <footer>
-      <p>
-        &copy; Alexandre Vicenzi 2015 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
-      </p>
-<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>      <p>
-        <a rel="license"
-           href="http://creativecommons.org/licenses/by-sa/4.0/"
-           target="_blank">
-          <img alt="Creative Commons License"
-               title="Creative Commons License"
-               style="border-width:0"
-               src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
-               width="80"
-               height="15"/></a>
+<p>
+  &copy; Alexandre Vicenzi 2015 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
 <a href="https://www.statuscake.com" title="Alexandre Vicenzi's Blog Uptime">
   <img src="https://www.statuscake.com/App/button/index.php?Track=SL0UAgrsYP&amp;Days=7&amp;Design=6" alt="Alexandre Vicenzi's Blog Uptime" width="96" height="15"/>
 </a>
-      </p>
-    </footer>
+</p>    </footer>
   </main>
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -123,5 +137,14 @@
   ga('create', 'UA-55543164-3', 'auto');
   ga('send', 'pageview');
 </script>
-</body>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Alexandre Vicenzi's Blog ",
+  "url" : "//blog.alexandrevicenzi.com",
+  "image": "http://alexandrevicenzi.com/img/profile.png",
+  "description": "SITEDESCRIPTION"
+}
+</script></body>
 </html>
