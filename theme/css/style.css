@@ -206,7 +206,7 @@ main footer p {
     left: 0;
     overflow-y: auto;
   }
-  aside .profile {
+  aside div {
     padding: 36px 18px;
   }
   aside nav ul li {
