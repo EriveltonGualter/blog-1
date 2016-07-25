@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="https://blog.alexandrevicenzi.com/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://blog.alexandrevicenzi.com/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://blog.alexandrevicenzi.com/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="https://blog.alexandrevicenzi.com/static/custom.css" rel="stylesheet">
+
+    <link href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Vicenzi's Blog Atom">
+
+
+    <link rel="shortcut icon" href="https://blog.alexandrevicenzi.com/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://blog.alexandrevicenzi.com/images/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="author" content="Alexandre Vicenzi" />
+<meta name="description" content="Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast. In this example I will use a 128x64 OLED display based on SSD1306 controller. You can find models that use I²C ..." />
+<meta name="keywords" content="bananapi, display, python, gpio, i2c, oled">
+<meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
+<meta property="og:title" content="How to use OLED display with Banana Pi"/>
+<meta property="og:description" content="Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast. In this example I will use a 128x64 OLED display based on SSD1306 controller. You can find models that use I²C ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.alexandrevicenzi.com/oled-display-i2c-with-bananapi.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-07-25 08:00:00-04:00"/>
+<meta property="article:modified_time" content="2016-07-25 08:00:00-04:00"/>
+<meta property="article:author" content="https://blog.alexandrevicenzi.com/author/alexandre-vicenzi.html">
+<meta property="article:section" content="Embedded Systems"/>
+<meta property="article:tag" content="bananapi"/>
+<meta property="article:tag" content="display"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="gpio"/>
+<meta property="article:tag" content="i2c"/>
+<meta property="article:tag" content="oled"/>
+<meta property="og:image" content="https://blog.alexandrevicenzi.com/images/BananaPi-OLED-Small.png">
+
+  <title>Alexandre Vicenzi's Blog &ndash; How to use OLED display with Banana Pi</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://blog.alexandrevicenzi.com">
+        <img src="//s.gravatar.com/avatar/5dc5ba59a94eeab2106ad9d397361b2c?s=120" alt="Alexandre Vicenzi" title="Alexandre Vicenzi">
+      </a>
+      <h1><a href="https://blog.alexandrevicenzi.com">Alexandre Vicenzi</a></h1>
+<p>Sotfware Engineer - Maker</p>      <nav>
+        <ul class="list">
+          <li><a href="https://blog.alexandrevicenzi.com/pages/about.html#about">About</a></li>
+          <li><a href="https://blog.alexandrevicenzi.com/pages/contact.html#contact">Contact</a></li>
+          <li><a href="//alexandrevicenzi.com" target="_blank">Portfolio</a></li>
+        </ul>
+      </nav>
+      <ul class="social">
+        <li><a class="sc-linkedin" href="https://br.linkedin.com/in/alexandrevicenzi/en" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/alexandrevicenzi" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-google" href="https://google.com/+AlexandreVicenzi" target="_blank"><i class="fa fa-google"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/alxvicenzi" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-rss" href="//blog.alexandrevicenzi.com/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+    <nav>
+      <a href="https://blog.alexandrevicenzi.com">Home</a>
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">Atom</a>
+    </nav>
+
+<article>
+  <header>
+    <h1 id="oled-display-i2c-with-bananapi">How to use OLED display with Banana Pi</h1>
+    <p>Posted on Mon 25 July 2016 in <a href="https://blog.alexandrevicenzi.com/category/embedded-systems.html">Embedded Systems</a></p>
+  </header>
+  <div>
+    <p>Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast.</p>
+<p><img alt="OLED Display" class="img-center" src="images/oled.png" /></p>
+<p>In this example I will use a 128x64 OLED display based on SSD1306 controller. You can find models that use <a href="https://en.wikipedia.org/wiki/I%C2%B2C">I²C</a> or <a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">SPI</a> as communication interface. SPI is generally faster than I2C but uses more pins.</p>
+<h2>Connecting the module</h2>
+<p>The table bellow shows how to connect a display that uses I²C interface.</p>
+<table>
+<thead>
+<tr>
+<th align="center">OLED Pin</th>
+<th align="center">BananaPi/Pro Pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">VCC</td>
+<td align="center">1 (3V3)</td>
+</tr>
+<tr>
+<td align="center">GND</td>
+<td align="center">6 (GND)</td>
+</tr>
+<tr>
+<td align="center">SCL (or CLK)</td>
+<td align="center">5 (SCL)</td>
+</tr>
+<tr>
+<td align="center">SDA (or Data)</td>
+<td align="center">3 (SDA)</td>
+</tr>
+<tr>
+<td align="center">RST</td>
+<td align="center">24 (GPIO8)</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<p>If you're using your display for the first time, you will need to install some dependencies. If you're using ArchLinux you can run the following commands:</p>
+<div class="highlight"><pre><span></span>sudo pacman -Syu
+sudo pacman-db-upgrade
+sudo trust extract-compat
+sudo pacman -S python python-pip base-devel i2c-tools python-imaging lm_sensors libjpeg-turbo freetype2
+</pre></div>
+
+
+<p>If you're on Debian-based distros you can run:</p>
+<div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install build-essential python-dev python-pip python-imaging python-smbus libfreetype6-dev
+</pre></div>
+
+
+<p>After this you can install Python PIL or Pillow. PIL is the Python Imaging Library. Pillow is a Fork of PIL and it's the better choice because it works with Python 3+.</p>
+<div class="highlight"><pre><span></span>sudo pip install Pillow
+</pre></div>
+
+
+<p>First, clone the version of RPi.GPIO from LeMaker into your home folder.
+If you have a Banana Pi you need to clone <code>bananapi</code> branch:</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/LeMaker/RPi.GPIO_BP.git -b bananapi <span class="o">&amp;&amp;</span> <span class="k">cd</span> RPi.GPIO_BP
+</pre></div>
+
+
+<p>If you have a Banana Pro you need to clone <code>bananapro</code> branch:</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/LeMaker/RPi.GPIO_BP.git -b bananapro <span class="o">&amp;&amp;</span> <span class="k">cd</span> RPi.GPIO_BP
+</pre></div>
+
+
+<p>Then run <code>sudo python setup.py install</code> to install this library.</p>
+<p>After, clone from Adafruit the library to use GPIO into your home folder:</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/Adafruit/Adafruit_Python_GPIO.git <span class="o">&amp;&amp;</span> <span class="k">cd</span> Adafruit_Python_GPIO
+</pre></div>
+
+
+<p>Before install, we need to hack the code to get it working on BananaPi. Open <code>Adafruit_GPIO/GPIO.py</code> with your text editor, find <code>get_platform_gpio</code> function and change the code to:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_platform_gpio</span><span class="p">(</span><span class="o">**</span><span class="n">keywords</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">RPi.GPIO</span>
+    <span class="k">return</span> <span class="n">RPiGPIOAdapter</span><span class="p">(</span><span class="n">RPi</span><span class="o">.</span><span class="n">GPIO</span><span class="p">,</span> <span class="o">**</span><span class="n">keywords</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Then run <code>sudo python setup.py install</code> to install this library.</p>
+<p>Finally, clone the Adafruit library into your home folder to use SSD1306-based OLED displays:</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/Adafruit/Adafruit_Python_SSD1306.git <span class="o">&amp;&amp;</span> <span class="k">cd</span> Adafruit_Python_SSD1306 
+</pre></div>
+
+
+<p>Run <code>sudo python setup.py install</code> to install this library.</p>
+<h2>Code example</h2>
+<p>Copy the code below to your home folder (or elsewhere) give a name to you file like <code>oled.py</code> and run <code>sudo python oled.py</code> to see the result.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Adafruit_SSD1306</span>
+
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageFont</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageDraw</span>
+
+<span class="n">RST</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="c1"># 128x64 display with hardware I2C:</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">Adafruit_SSD1306</span><span class="o">.</span><span class="n">SSD1306_128_64</span><span class="p">(</span><span class="n">rst</span><span class="o">=</span><span class="n">RST</span><span class="p">,</span> <span class="n">i2c_bus</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># initialize library.</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">width</span>
+<span class="n">height</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">height</span>
+
+<span class="c1"># clear display.</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+
+<span class="c1"># create image buffer.</span>
+<span class="c1"># use mode &#39;1&#39; for 1-bit color.</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+
+<span class="c1"># load default font.</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">ImageFont</span><span class="o">.</span><span class="n">load_default</span><span class="p">()</span>
+
+<span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="c1"># draw text line.</span>
+<span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;alexandrevicenzi.com&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="c1"># draw line separator.</span>
+<span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="c1"># draw another text line.</span>
+<span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;OLED Display example&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+<span class="c1"># draw the image buffer.</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+
+
+<p>This code will write some text and draw a line to the display as shown bellow.</p>
+<p><a href="images/BananaPi-OLED-Big.jpg"><img alt="Banana Pi OLED Display" class="img-center" src="images/BananaPi-OLED-Small.png" /></a></p>
+<p>You can find more examples inside <strong>Adafruit_Python_SSD1306</strong> library. But you may need to change the display initialization to match your device. A good example is how to draw an image on OLED displays.</p>
+<p><img alt="Adafruit OLED Cat" class="img-center" src="images/OLED_cat.png" /></p>
+<p><strong>Reference</strong></p>
+<p><a href="https://learn.adafruit.com/ssd1306-oled-displays-with-raspberry-pi-and-beaglebone-black" target="_blank">SSD1306 OLED Displays with Raspberry Pi and BeagleBone Black</a></p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://blog.alexandrevicenzi.com/tag/bananapi.html">bananapi</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/display.html">display</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/python.html">python</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/gpio.html">gpio</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/i2c.html">i2c</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/oled.html">oled</a>
+    </p>
+  </div>
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+  </div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'alexandrevicenziblog';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Alexandre Vicenzi 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>Built using <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+<!-- StatusCake -->
+<a href="https://www.statuscake.com" title="Alexandre Vicenzi's Blog Uptime">
+  <img src="https://www.statuscake.com/App/button/index.php?Track=SL0UAgrsYP&amp;Days=7&amp;Design=6" alt="Alexandre Vicenzi's Blog Uptime"/>
+</a>
+
+<script type="text/javascript">var SC_RumID = 6852;</script>
+<script type="text/javascript" async src="https://www.statuscake.com/App/RUM/embed.js"></script>
+<!-- End StatusCake --></p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-55543164-3', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55adbb025d4f7e55" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Alexandre Vicenzi's Blog ",
+  "url" : "https://blog.alexandrevicenzi.com",
+  "image": "//s.gravatar.com/avatar/5dc5ba59a94eeab2106ad9d397361b2c?s=120",
+  "description": "Alexandre Vicenzi's Thoughts and Writings"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "How to use OLED display with Banana Pi",
+  "headline": "How to use OLED display with Banana Pi",
+  "datePublished": "2016-07-25 08:00:00-04:00",
+  "dateModified": "2016-07-25 08:00:00-04:00",
+  "author": {
+    "@type": "Person",
+    "name": "Alexandre Vicenzi",
+    "url": "https://blog.alexandrevicenzi.com/author/alexandre-vicenzi.html"
+  },
+  "image": "images/BananaPi-OLED-Small.png",
+  "url": "https://blog.alexandrevicenzi.com/oled-display-i2c-with-bananapi.html",
+  "description": "Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast. In this example I will use a 128x64 OLED display based on SSD1306 controller. You can find models that use I²C ..."
+}
+</script></body>
+</html>

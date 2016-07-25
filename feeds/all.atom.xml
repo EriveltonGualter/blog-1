@@ -1,5 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Vicenzi's Blog</title><link href="https://blog.alexandrevicenzi.com/" rel="alternate"></link><link href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml" rel="self"></link><id>https://blog.alexandrevicenzi.com/</id><updated>2016-06-10T08:00:00-04:00</updated><entry><title>Flex 1.2.0</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-1-2-0.html" rel="alternate"></link><published>2016-06-10T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-06-10:flex-pelican-theme-update-1-2-0.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Flex theme&lt;/a&gt; received some new features. Version 1.2.0 include new features and some updates.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Vicenzi's Blog</title><link href="https://blog.alexandrevicenzi.com/" rel="alternate"></link><link href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml" rel="self"></link><id>https://blog.alexandrevicenzi.com/</id><updated>2016-07-25T08:00:00-04:00</updated><entry><title>How to use OLED display with Banana Pi</title><link href="https://blog.alexandrevicenzi.com/oled-display-i2c-with-bananapi.html" rel="alternate"></link><published>2016-07-25T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-07-25:oled-display-i2c-with-bananapi.html</id><summary type="html">&lt;p&gt;Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OLED Display" class="img-center" src="images/oled.png" /&gt;&lt;/p&gt;
+&lt;p&gt;In this example I will use a 128x64 OLED display based on SSD1306 controller. You can find models that use &lt;a href="https://en.wikipedia.org/wiki/I%C2%B2C"&gt;I²C&lt;/a&gt; or &lt;a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus"&gt;SPI&lt;/a&gt; as communication interface. SPI is generally faster than I2C but uses more pins.&lt;/p&gt;
+&lt;h2&gt;Connecting the module&lt;/h2&gt;
+&lt;p&gt;The table bellow shows how to connect a display that uses I²C interface.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="center"&gt;OLED Pin&lt;/th&gt;
+&lt;th align="center"&gt;BananaPi/Pro Pin&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;VCC&lt;/td&gt;
+&lt;td align="center"&gt;1 (3V3)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;GND&lt;/td&gt;
+&lt;td align="center"&gt;6 (GND)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;SCL (or CLK)&lt;/td&gt;
+&lt;td align="center"&gt;5 (SCL)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;SDA (or Data)&lt;/td&gt;
+&lt;td align="center"&gt;3 (SDA)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;RST&lt;/td&gt;
+&lt;td align="center"&gt;24 (GPIO8)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;Dependencies&lt;/h2&gt;
+&lt;p&gt;If you're using your display for the first time, you will need to install some dependencies. If you're using ArchLinux you can run the following commands:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo pacman -Syu
+sudo pacman-db-upgrade
+sudo trust extract-compat
+sudo pacman -S python python-pip base-devel i2c-tools python-imaging lm_sensors libjpeg-turbo freetype2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you're on Debian-based distros you can run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get update
+sudo apt-get install build-essential python-dev python-pip python-imaging python-smbus libfreetype6-dev
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After this you can install Python PIL or Pillow. PIL is the Python Imaging Library. Pillow is a Fork of PIL and it's the better choice because it works with Python 3+.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo pip install Pillow
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;First, clone the version of RPi.GPIO from LeMaker into your home folder.
+If you have a Banana Pi you need to clone &lt;code&gt;bananapi&lt;/code&gt; branch:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/LeMaker/RPi.GPIO_BP.git -b bananapi &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;cd&lt;/span&gt; RPi.GPIO_BP
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you have a Banana Pro you need to clone &lt;code&gt;bananapro&lt;/code&gt; branch:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/LeMaker/RPi.GPIO_BP.git -b bananapro &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;cd&lt;/span&gt; RPi.GPIO_BP
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then run &lt;code&gt;sudo python setup.py install&lt;/code&gt; to install this library.&lt;/p&gt;
+&lt;p&gt;After, clone from Adafruit the library to use GPIO into your home folder:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/Adafruit/Adafruit_Python_GPIO.git &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;cd&lt;/span&gt; Adafruit_Python_GPIO
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Before install, we need to hack the code to get it working on BananaPi. Open &lt;code&gt;Adafruit_GPIO/GPIO.py&lt;/code&gt; with your text editor, find &lt;code&gt;get_platform_gpio&lt;/code&gt; function and change the code to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_platform_gpio&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;RPi.GPIO&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;RPiGPIOAdapter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RPi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GPIO&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then run &lt;code&gt;sudo python setup.py install&lt;/code&gt; to install this library.&lt;/p&gt;
+&lt;p&gt;Finally, clone the Adafruit library into your home folder to use SSD1306-based OLED displays:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/Adafruit/Adafruit_Python_SSD1306.git &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;cd&lt;/span&gt; Adafruit_Python_SSD1306 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Run &lt;code&gt;sudo python setup.py install&lt;/code&gt; to install this library.&lt;/p&gt;
+&lt;h2&gt;Code example&lt;/h2&gt;
+&lt;p&gt;Copy the code below to your home folder (or elsewhere) give a name to you file like &lt;code&gt;oled.py&lt;/code&gt; and run &lt;code&gt;sudo python oled.py&lt;/code&gt; to see the result.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;Adafruit_SSD1306&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ImageFont&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ImageDraw&lt;/span&gt;
+
+&lt;span class="n"&gt;RST&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;
+
+&lt;span class="c1"&gt;# 128x64 display with hardware I2C:&lt;/span&gt;
+&lt;span class="n"&gt;disp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Adafruit_SSD1306&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SSD1306_128_64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rst&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;RST&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i2c_bus&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# initialize library.&lt;/span&gt;
+&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;
+&lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;
+
+&lt;span class="c1"&gt;# clear display.&lt;/span&gt;
+&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clear&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c1"&gt;# create image buffer.&lt;/span&gt;
+&lt;span class="c1"&gt;# use mode &amp;#39;1&amp;#39; for 1-bit color.&lt;/span&gt;
+&lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c1"&gt;# load default font.&lt;/span&gt;
+&lt;span class="n"&gt;font&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ImageFont&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load_default&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;draw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ImageDraw&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Draw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# draw text line.&lt;/span&gt;
+&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;alexandrevicenzi.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;font&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;font&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# draw line separator.&lt;/span&gt;
+&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# draw another text line.&lt;/span&gt;
+&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;OLED Display example&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;font&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;font&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# draw the image buffer.&lt;/span&gt;
+&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This code will write some text and draw a line to the display as shown bellow.&lt;/p&gt;
+&lt;p&gt;&lt;a href="images/BananaPi-OLED-Big.jpg"&gt;&lt;img alt="Banana Pi OLED Display" class="img-center" src="images/BananaPi-OLED-Small.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can find more examples inside &lt;strong&gt;Adafruit_Python_SSD1306&lt;/strong&gt; library. But you may need to change the display initialization to match your device. A good example is how to draw an image on OLED displays.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Adafruit OLED Cat" class="img-center" src="images/OLED_cat.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Reference&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://learn.adafruit.com/ssd1306-oled-displays-with-raspberry-pi-and-beaglebone-black" target="_blank"&gt;SSD1306 OLED Displays with Raspberry Pi and BeagleBone Black&lt;/a&gt;&lt;/p&gt;</summary><category term="bananapi"></category><category term="display"></category><category term="python"></category><category term="gpio"></category><category term="i2c"></category><category term="oled"></category></entry><entry><title>Flex 1.2.0</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-1-2-0.html" rel="alternate"></link><published>2016-06-10T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-06-10:flex-pelican-theme-update-1-2-0.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Flex theme&lt;/a&gt; received some new features. Version 1.2.0 include new features and some updates.&lt;/p&gt;
 &lt;p&gt;For developers there are new color styles for your code. For general purpose there is RUM support, related posts and browser color configuration.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex/issues/31"&gt;Update font-awesome&lt;/a&gt;&lt;/li&gt;
@@ -36,7 +172,7 @@
 &lt;p&gt;I would like to thank all who helped in this new version.&lt;/p&gt;</summary><category term="pelican"></category><category term="python"></category><category term="theme"></category></entry><entry><title>Flex: Responsive Pelican theme</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme.html" rel="alternate"></link><published>2015-07-22T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2015-07-22:flex-pelican-theme.html</id><summary type="html">&lt;p&gt;I just start a new fresh blog using &lt;a href="http://getpelican.com"&gt;Pelican&lt;/a&gt;. Sometimes choosing a theme for a new site is something difficult that takes time.&lt;/p&gt;
 &lt;p&gt;In the Pelican &lt;a href="http://www.pelicanthemes.com/"&gt;theme gallery&lt;/a&gt;, I couldn't find anything that I really liked to feet all my needs. So in the first time of the history, I choose to create my own theme. I never did this before.&lt;/p&gt;
 &lt;p&gt;Creating a theme for Pelican is quite easy, unlike Wordpress. You can take a look in the &lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Source Code of Flex&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;But how Flex looks like? Well, you can see &lt;a href="https://raw.githubusercontent.com/alexandrevicenzi/Flex/master/screenshot.png"&gt;this screenshot&lt;/a&gt;, but you already know how it looks like, you're looking at it. :D&lt;/p&gt;
+&lt;p&gt;But how Flex looks like? Well, you can see &lt;a href="images/flex-screenshot.png"&gt;this screenshot&lt;/a&gt;, but you already know how it looks like, you're looking at it. :D&lt;/p&gt;
 &lt;p&gt;I really care about SEO and integrations with Facebook, Google Plus and other social networks, so this theme offers some features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Mobile First&lt;/li&gt;
