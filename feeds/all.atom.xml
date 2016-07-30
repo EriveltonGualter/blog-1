@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Vicenzi's Blog</title><link href="https://blog.alexandrevicenzi.com/" rel="alternate"></link><link href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml" rel="self"></link><id>https://blog.alexandrevicenzi.com/</id><updated>2016-07-25T08:00:00-04:00</updated><entry><title>How to use OLED display with Banana Pi</title><link href="https://blog.alexandrevicenzi.com/oled-display-i2c-with-bananapi.html" rel="alternate"></link><published>2016-07-25T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-07-25:oled-display-i2c-with-bananapi.html</id><summary type="html">&lt;p&gt;Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Vicenzi's Blog</title><link href="https://blog.alexandrevicenzi.com/" rel="alternate"></link><link href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml" rel="self"></link><id>https://blog.alexandrevicenzi.com/</id><updated>2016-07-31T08:00:00-04:00</updated><entry><title>Qt Designer error: cannot find -lGL</title><link href="https://blog.alexandrevicenzi.com/qt-designer-compile-error.html" rel="alternate"></link><published>2016-07-31T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-07-31:qt-designer-compile-error.html</id><summary type="html">&lt;p&gt;After upgrading to openSUSE Tumbleweed I got an error while trying to compile a Qt project as shown below.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;23:42:00: Running steps &lt;span class="k"&gt;for&lt;/span&gt; project qt-quick...
+23:42:00: Configuration unchanged, skipping qmake step.
+23:42:00: Starting: &lt;span class="s2"&gt;&amp;quot;/usr/bin/make&amp;quot;&lt;/span&gt; 
+/home/alexandre/Qt/5.7/gcc_64/bin/rcc -name qml ../qt-quick/qml.qrc -o qrc_qml.cpp
+g++ -c -pipe -g -std&lt;span class="o"&gt;=&lt;/span&gt;gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -I../qt-quick -I. -I../../Qt/5.7/gcc_64/include -I../../Qt/5.7/gcc_64/include/QtQuick -I../../Qt/5.7/gcc_64/include/QtGui -I../../Qt/5.7/gcc_64/include/QtQml -I../../Qt/5.7/gcc_64/include/QtNetwork -I../../Qt/5.7/gcc_64/include/QtCore -I. -I../../Qt/5.7/gcc_64/mkspecs/linux-g++ -o qrc_qml.o qrc_qml.cpp
+g++ -Wl,-rpath,/home/alexandre/Qt/5.7/gcc_64/lib -o qt-quick main.o qrc_qml.o   -L/home/alexandre/Qt/5.7/gcc_64/lib -lQt5Quick -L/usr/lib64 -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lGL -lpthread 
+/usr/lib64/gcc/x86_64-suse-linux/6/../../../../x86_64-suse-linux/bin/ld: cannot find -lGL
+collect2: error: ld returned &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; status
+make: *** &lt;span class="o"&gt;[&lt;/span&gt;Makefile:210: qt-quick&lt;span class="o"&gt;]&lt;/span&gt; Error 1
+23:42:00: The process &lt;span class="s2"&gt;&amp;quot;/usr/bin/make&amp;quot;&lt;/span&gt; exited with code 2.
+Error &lt;span class="k"&gt;while&lt;/span&gt; building/deploying project qt-quick &lt;span class="o"&gt;(&lt;/span&gt;kit: Desktop Qt 5.7.0 GCC 64bit&lt;span class="o"&gt;)&lt;/span&gt;
+When executing step &lt;span class="s2"&gt;&amp;quot;Make&amp;quot;&lt;/span&gt;
+23:42:00: Elapsed time: 00:00.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The output says that g++ &lt;code&gt;cannot find -lGL&lt;/code&gt;. Well, something is missing. The flag &lt;code&gt;-lGL&lt;/code&gt; tells g++ to link OpenGL library, so OpenGL is missing in our case.&lt;/p&gt;
+&lt;p&gt;The solution was to install Qt 5 OpenGL Library.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo zypper in libQt5OpenGL-devel libQt5OpenGL5
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Hope this helps someone else. :)&lt;/p&gt;</summary><category term="qt5"></category><category term="c"></category><category term="c++"></category><category term="opensuse"></category></entry><entry><title>How to use OLED display with Banana Pi</title><link href="https://blog.alexandrevicenzi.com/oled-display-i2c-with-bananapi.html" rel="alternate"></link><published>2016-07-25T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-07-25:oled-display-i2c-with-bananapi.html</id><summary type="html">&lt;p&gt;Today we're going to connect an OLED display on Banana Pi/Banana Pro throught I²C. These displays are very small, but very readable due to the high contrast.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="OLED Display" class="img-center" src="images/oled.png" /&gt;&lt;/p&gt;
 &lt;p&gt;In this example I will use a 128x64 OLED display based on SSD1306 controller. You can find models that use &lt;a href="https://en.wikipedia.org/wiki/I%C2%B2C"&gt;I²C&lt;/a&gt; or &lt;a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus"&gt;SPI&lt;/a&gt; as communication interface. SPI is generally faster than I2C but uses more pins.&lt;/p&gt;
 &lt;h2&gt;Connecting the module&lt;/h2&gt;
