@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="https://blog.alexandrevicenzi.com/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://blog.alexandrevicenzi.com/theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="https://blog.alexandrevicenzi.com/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="https://blog.alexandrevicenzi.com/static/custom.css" rel="stylesheet">
+
+    <link href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Vicenzi's Blog Atom">
+
+
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="author" content="Alexandre Vicenzi" />
+<meta name="description" content="If your software uses Facebook login you know that users can grant or decline permissions. The public_profile is default and you can get basic info about the user, such as user's name for example. You can also request more permissions in the scope. One very useful is email permission ..." />
+<meta name="keywords" content="oauth, python, tornado, facebook, social">
+<meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
+<meta property="og:title" content="Make email permission required when sign in with Facebook"/>
+<meta property="og:description" content="If your software uses Facebook login you know that users can grant or decline permissions. The public_profile is default and you can get basic info about the user, such as user's name for example. You can also request more permissions in the scope. One very useful is email permission ..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.alexandrevicenzi.com/required-email-facebook-login.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-08-21 08:00:00-04:00"/>
+<meta property="article:modified_time" content="2016-08-21 08:00:00-04:00"/>
+<meta property="article:author" content="https://blog.alexandrevicenzi.com/author/alexandre-vicenzi.html">
+<meta property="article:section" content="Dev"/>
+<meta property="article:tag" content="oauth"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="tornado"/>
+<meta property="article:tag" content="facebook"/>
+<meta property="article:tag" content="social"/>
+<meta property="og:image" content="//s.gravatar.com/avatar/5dc5ba59a94eeab2106ad9d397361b2c?s=120">
+
+  <title>Alexandre Vicenzi's Blog &ndash; Make email permission required when sign in with Facebook</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://blog.alexandrevicenzi.com">
+        <img src="//s.gravatar.com/avatar/5dc5ba59a94eeab2106ad9d397361b2c?s=120" alt="Alexandre Vicenzi" title="Alexandre Vicenzi">
+      </a>
+      <h1><a href="https://blog.alexandrevicenzi.com">Alexandre Vicenzi</a></h1>
+
+<p>Sotfware Engineer - Maker</p>
+      <nav>
+        <ul class="list">
+          <li><a href="https://blog.alexandrevicenzi.com/pages/about.html#about">About</a></li>
+          <li><a href="https://blog.alexandrevicenzi.com/pages/contact.html#contact">Contact</a></li>
+
+          <li><a href="http://alexandrevicenzi.com" target="_blank">Portfolio</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-linkedin" href="https://br.linkedin.com/in/alexandrevicenzi/en" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/alexandrevicenzi" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-google" href="https://google.com/+AlexandreVicenzi" target="_blank"><i class="fa fa-google"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/alxvicenzi" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-rss" href="//blog.alexandrevicenzi.com/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+    <nav>
+      <a href="https://blog.alexandrevicenzi.com">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article>
+  <header>
+    <h1 id="required-email-facebook-login">Make email permission required when sign in with Facebook</h1>
+    <p>
+          Posted on August 21, 2016 in <a href="https://blog.alexandrevicenzi.com/category/dev.html">Dev</a>
+
+
+        &#8226; 3 min read
+    </p>
+  </header>
+  <div>
+    <p>If your software uses <a href="https://developers.facebook.com/docs/facebook-login/overview">Facebook login</a> you know that users can grant or decline <a href="https://developers.facebook.com/docs/facebook-login/permissions/overview">permissions</a>. The <em>public_profile</em> is default and you can get basic info about the user, such as user's name for example.</p>
+<p>You can also request more permissions in the scope. One very useful is <a href="https://developers.facebook.com/docs/facebook-login/permissions#reference-email"><em>email</em></a> permission, which gives you access to user primary email. The thing about email is, the user doesn't need to allow an app to access this data.</p>
+<p><img alt="Facebook permission declined" class="img-center" src="images/facebook-permissions-declined.png" /></p>
+<p>As you can see, any additional permission can be declined by users. If you want the email, you can have another problem:</p>
+<blockquote>
+<p>Even if you request the email permission it is not guaranteed you will get an email address. For example, if someone signed up for Facebook with a phone number instead of an email address, the email field may be empty.</p>
+<p><a href="https://developers.facebook.com/docs/facebook-login/permissions#reference-email">Read more</a></p>
+</blockquote>
+<p>In this case, you will need to deal with this scenario in another way. The best solution is to ask user email after signup. But today we want to make the email (or any other permission) required.</p>
+<p>The trick is, if the user declines some permission, you can ask it again. You can explain why some permission is required, and then redirect the user to Facebook again.</p>
+<p>For example, the URL below open the dialog above, requesting <em>public_profile</em> and <em>email</em>.</p>
+<p><a href="#">https://www.facebook.com/dialog/oauth?scope=email&amp;redirect_uri=http://localhost:8888/login&amp;response_type=code&amp;client_id=1234567890</a></p>
+<p>If the user declines some permission we can ask it again using the URL below.</p>
+<p><a href="#">https://www.facebook.com/dialog/oauth?auth_type=rerequest&amp;scope=email&amp;redirect_uri=http://localhost:8888/login&amp;response_type=code&amp;client_id=1234567890</a></p>
+<p>And the result will be as below.</p>
+<p><img alt="Facebook email retry" class="img-center" src="images/facebook-email-retry.png" /></p>
+<p>As you can see, the user can't proceed without granting permission to email. This is done by <code>auth_type=rerequest</code> parameter, which requests the permission again.</p>
+<p>In practice, it will work like the example below. I'm using <a href="http://www.tornadoweb.org/en/stable/">Tornado</a> 4.4, but you can do this in most languages that have support for Facebook OAuth.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">tornado.auth</span>
+<span class="kn">import</span> <span class="nn">tornado.ioloop</span>
+<span class="kn">import</span> <span class="nn">tornado.web</span>
+
+<span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64encode</span><span class="p">,</span> <span class="n">b64decode</span>
+<span class="kn">from</span> <span class="nn">tornado.concurrent</span> <span class="kn">import</span> <span class="n">return_future</span>
+
+<span class="n">FACEBOOK_ID</span> <span class="o">=</span> <span class="s1">&#39;YOUR ID HERE&#39;</span>
+<span class="n">FACEBOOK_SECRET</span> <span class="o">=</span> <span class="s1">&#39;YOUR SECRET HERE&#39;</span>
+
+<span class="n">FACEBOOK_REDIRECT_URI</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8888/login&#39;</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(module)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">FacebookOAuthException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">MainHandler</span><span class="p">(</span><span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">RequestHandler</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cookie</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">b64decode</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;User logged in.&#39;</span><span class="p">)</span>
+
+            <span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cookie</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">email</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Hello, </span><span class="si">%s</span><span class="s1">. Your primary email on Facebook is </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">b64decode</span><span class="p">(</span><span class="n">email</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Hello, </span><span class="si">%s</span><span class="s1">. Your account has no email associated.&#39;</span> <span class="o">%</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;User not logged in.&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">FacebookLoginHandler</span><span class="p">(</span><span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">RequestHandler</span><span class="p">,</span> <span class="n">tornado</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">FacebookGraphMixin</span><span class="p">):</span>
+
+    <span class="nd">@tornado.gen.coroutine</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+            <span class="c1"># User logged in. get user data.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Getting user data...&#39;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_authenticated_user</span><span class="p">(</span><span class="n">redirect_uri</span><span class="o">=</span><span class="n">FACEBOOK_REDIRECT_URI</span><span class="p">,</span>
+                                                     <span class="n">client_id</span><span class="o">=</span><span class="n">FACEBOOK_ID</span><span class="p">,</span>
+                                                     <span class="n">client_secret</span><span class="o">=</span><span class="n">FACEBOOK_SECRET</span><span class="p">,</span>
+                                                     <span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">),</span>
+                                                     <span class="n">extra_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;permissions&#39;</span><span class="p">])</span>
+
+            <span class="c1"># Check if user allow us to get his email.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Validating user permissions...&#39;</span><span class="p">)</span>
+            <span class="n">permissions</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;permissions&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">permission</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">permissions</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;permission&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">permission</span><span class="p">:</span>
+                <span class="n">granted_access</span> <span class="o">=</span> <span class="n">permission</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;granted&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Opss!</span>
+                <span class="k">raise</span> <span class="n">FacebookOAuthException</span><span class="p">(</span><span class="s1">&#39;Missing permission from facebook request.&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">granted_access</span><span class="p">:</span>
+                <span class="c1"># Everything is OK. move on.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Access granted.&#39;</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_auth</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># If user don&#39;t grant access to email, keep it on facebook login page until he allow it.</span>
+                <span class="c1"># We need to pass &#39;auth_type&#39; as &#39;rerequest&#39; for this work.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Access declined. Re-request...&#39;</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize_redirect</span><span class="p">(</span><span class="n">redirect_uri</span><span class="o">=</span><span class="n">FACEBOOK_REDIRECT_URI</span><span class="p">,</span>
+                                              <span class="n">client_id</span><span class="o">=</span><span class="n">FACEBOOK_ID</span><span class="p">,</span>
+                                              <span class="n">scope</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">],</span>
+                                              <span class="n">extra_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;auth_type&#39;</span><span class="p">:</span> <span class="s1">&#39;rerequest&#39;</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># User not logged in, request authorization.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Requesting user authorization...&#39;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize_redirect</span><span class="p">(</span><span class="n">redirect_uri</span><span class="o">=</span><span class="n">FACEBOOK_REDIRECT_URI</span><span class="p">,</span>
+                                          <span class="n">client_id</span><span class="o">=</span><span class="n">FACEBOOK_ID</span><span class="p">,</span>
+                                          <span class="n">scope</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">])</span>
+
+    <span class="nd">@return_future</span>
+    <span class="k">def</span> <span class="nf">_on_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">facebook_data</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="c1"># TODO: Use secure cookie, persist somewhere, but don&#39;t do this in prodution.</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">facebook_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">facebook_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">b64encode</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">email</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="n">b64encode</span><span class="p">(</span><span class="n">email</span><span class="p">))</span>
+
+        <span class="c1"># Logged in. go back to home.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">callback</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">make_app</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">r&#39;/&#39;</span><span class="p">,</span> <span class="n">MainHandler</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">r&#39;/login&#39;</span><span class="p">,</span> <span class="n">FacebookLoginHandler</span><span class="p">),</span>
+    <span class="p">],</span> <span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">make_app</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">8888</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Server running at http://localhost:8888/&#39;</span><span class="p">)</span>
+    <span class="n">tornado</span><span class="o">.</span><span class="n">ioloop</span><span class="o">.</span><span class="n">IOLoop</span><span class="o">.</span><span class="n">current</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+
+<p><strong>Reference</strong></p>
+<ul>
+<li><a href="https://developers.facebook.com/docs/facebook-login/permissions/overview">Permissions with Facebook Login</a></li>
+<li><a href="http://stackoverflow.com/questions/23799185/how-to-make-email-permission-required-when-logging-in-signing-up-a-user-using-th">How to make email permission required when logging in/signing up a user using the FB login?</a></li>
+</ul>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://blog.alexandrevicenzi.com/tag/oauth.html">oauth</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/python.html">python</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/tornado.html">tornado</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/facebook.html">facebook</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/social.html">social</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>    Like this article? Share it with your friends!
+</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+  </div>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'alexandrevicenziblog';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Alexandre Vicenzi 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+<!-- StatusCake -->
+<a href="https://www.statuscake.com" title="Alexandre Vicenzi's Blog Uptime">
+  <img src="https://www.statuscake.com/App/button/index.php?Track=SL0UAgrsYP&amp;Days=7&amp;Design=6" alt="Alexandre Vicenzi's Blog Uptime"/>
+</a>
+
+<script type="text/javascript">var SC_RumID = 6852;</script>
+<script type="text/javascript" async src="https://www.statuscake.com/App/RUM/embed.js"></script>
+<!-- End StatusCake --></p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-55543164-3', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55adbb025d4f7e55" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Alexandre Vicenzi's Blog ",
+  "url" : "https://blog.alexandrevicenzi.com",
+  "image": "//s.gravatar.com/avatar/5dc5ba59a94eeab2106ad9d397361b2c?s=120",
+  "description": "Alexandre Vicenzi's Thoughts and Writings"
+}
+</script>
+</body>
+</html>
