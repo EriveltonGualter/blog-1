@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.alexandrevicenzi.com/</loc>
-<lastmod>2016-08-22T21:02:51-00:00</lastmod>
+<lastmod>2016-08-24T19:36:50-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://blog.alexandrevicenzi.com/archives.html</loc>
-<lastmod>2016-08-22T21:02:51-00:00</lastmod>
+<lastmod>2016-08-24T19:36:50-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://blog.alexandrevicenzi.com/tags.html</loc>
-<lastmod>2016-08-22T21:02:51-00:00</lastmod>
+<lastmod>2016-08-24T19:36:50-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://blog.alexandrevicenzi.com/categories.html</loc>
-<lastmod>2016-08-22T21:02:51-00:00</lastmod>
+<lastmod>2016-08-24T19:36:50-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -43,6 +43,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2015-07-18T08:00:00-04:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.alexandrevicenzi.com/nodemcu-pushbullet-notifiocation.html</loc>
+<lastmod>2016-08-24T08:00:00-04:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
 </url>
 
 <url>
@@ -131,7 +138,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.alexandrevicenzi.com/category/embedded-systems.html</loc>
-<lastmod>2016-07-25T08:00:00-04:56</lastmod>
+<lastmod>2016-08-24T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -186,8 +193,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.alexandrevicenzi.com/tag/oled.html</loc>
-<lastmod>2016-07-25T08:00:00-04:56</lastmod>
+<loc>https://blog.alexandrevicenzi.com/tag/esp.html</loc>
+<lastmod>2016-08-24T08:00:00-04:56</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
+<loc>https://blog.alexandrevicenzi.com/tag/nodemcu.html</loc>
+<lastmod>2016-08-24T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -200,8 +214,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.alexandrevicenzi.com/tag/tornado.html</loc>
-<lastmod>2016-08-21T08:00:00-04:56</lastmod>
+<loc>https://blog.alexandrevicenzi.com/tag/lua.html</loc>
+<lastmod>2016-08-24T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -209,6 +223,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://blog.alexandrevicenzi.com/tag/theme.html</loc>
 <lastmod>2016-06-10T08:00:00-04:56</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
+<loc>https://blog.alexandrevicenzi.com/tag/nunjucks.html</loc>
+<lastmod>2015-07-11T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -249,7 +270,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.alexandrevicenzi.com/tag/facebook.html</loc>
+<loc>https://blog.alexandrevicenzi.com/tag/tornado.html</loc>
 <lastmod>2016-08-21T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
@@ -298,8 +319,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.alexandrevicenzi.com/tag/nunjucks.html</loc>
+<loc>https://blog.alexandrevicenzi.com/tag/jinja2.html</loc>
 <lastmod>2015-07-11T08:00:00-04:56</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
+<loc>https://blog.alexandrevicenzi.com/tag/oled.html</loc>
+<lastmod>2016-07-25T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -312,8 +340,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.alexandrevicenzi.com/tag/jinja2.html</loc>
-<lastmod>2015-07-11T08:00:00-04:56</lastmod>
+<loc>https://blog.alexandrevicenzi.com/tag/facebook.html</loc>
+<lastmod>2016-08-21T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
@@ -333,8 +361,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://blog.alexandrevicenzi.com/tag/pushbullet.html</loc>
+<lastmod>2016-08-24T08:00:00-04:56</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
 <loc>https://blog.alexandrevicenzi.com/author/alexandre-vicenzi.html</loc>
-<lastmod>2016-08-21T08:00:00-04:56</lastmod>
+<lastmod>2016-08-24T08:00:00-04:56</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.6</priority>
 </url>
