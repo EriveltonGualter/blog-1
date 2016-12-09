@@ -32,25 +32,24 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="Alexandre Vicenzi" />
-<meta name="description" content="With NodeMCU HTTP Module we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request. Today, we're going to call Pushbullet API. So, what's Pushbullet? Pushbullet bridges ..." />
-<meta name="keywords" content="lua, nodemcu, esp, pushbullet">
+<meta name="description" content="Flex theme 2.0 comes with new features. In fact there are two new features. The biggest change is localization support. Yes, Flex now can be translated into your language. You can read about here. The biggest challege was to create a way to translate without breaking old versions. If ..." />
+<meta name="keywords" content="pelican, python, theme">
 <meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
-<meta property="og:title" content="Posting to Pushbullet with NodeMCU"/>
-<meta property="og:description" content="With NodeMCU HTTP Module we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request. Today, we're going to call Pushbullet API. So, what's Pushbullet? Pushbullet bridges ..."/>
+<meta property="og:title" content="Flex 2.0"/>
+<meta property="og:description" content="Flex theme 2.0 comes with new features. In fact there are two new features. The biggest change is localization support. Yes, Flex now can be translated into your language. You can read about here. The biggest challege was to create a way to translate without breaking old versions. If ..."/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://blog.alexandrevicenzi.com/nodemcu-pushbullet-notifiocation.html"/>
+<meta property="og:url" content="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-2-0.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2016-08-24 08:00:00-04:00"/>
-<meta property="article:modified_time" content="2016-08-24 08:00:00-04:00"/>
+<meta property="article:published_time" content="2016-09-13 08:00:00-04:00"/>
+<meta property="article:modified_time" content="2016-09-13 08:00:00-04:00"/>
 <meta property="article:author" content="https://blog.alexandrevicenzi.com/author/alexandre-vicenzi.html">
-<meta property="article:section" content="Embedded Systems"/>
-<meta property="article:tag" content="lua"/>
-<meta property="article:tag" content="nodemcu"/>
-<meta property="article:tag" content="esp"/>
-<meta property="article:tag" content="pushbullet"/>
-<meta property="og:image" content="//s.gravatar.com/avatar/5dc5ba59a94eeab2106ad9d397361b2c?s=120">
+<meta property="article:section" content="News"/>
+<meta property="article:tag" content="pelican"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="theme"/>
+<meta property="og:image" content="https://blog.alexandrevicenzi.com/images/flex-screenshot.png">
 
-  <title>Alexandre Vicenzi's Blog &ndash; Posting to Pushbullet with NodeMCU</title>
+  <title>Alexandre Vicenzi's Blog &ndash; Flex 2.0</title>
 
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
@@ -113,9 +112,9 @@
 
 <article class="single">
   <header>
-    <h1 id="nodemcu-pushbullet-notifiocation">Posting to Pushbullet with NodeMCU</h1>
+    <h1 id="flex-pelican-theme-update-2-0">Flex 2.0</h1>
     <p>
-          Posted on August 24, 2016 in <a href="https://blog.alexandrevicenzi.com/category/embedded-systems.html">Embedded Systems</a>
+          Posted on September 13, 2016 in <a href="https://blog.alexandrevicenzi.com/category/news.html">News</a>
 
 
         &#8226; 1 min read
@@ -124,52 +123,36 @@
 
 
   <div>
-    <p>With <a href="https://nodemcu.readthedocs.io/en/master/en/modules/http/">NodeMCU HTTP Module</a> we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request.</p>
-<p>Today, we're going to call <a href="https://www.pushbullet.com">Pushbullet</a> API. So, what's Pushbullet?</p>
-<blockquote>
-<p>Pushbullet bridges the gap between your phone, tablet, and computer, enabling them to work better together. From seeing your phone's notifications on your computer, to easily transferring links, files, and more between devices.</p>
-</blockquote>
-<p>Pushbullet is a great tool to get notifications on your phone. Let's assume we have a fire sensor at home. If the fire sensor detects something, it would be good to be notified if we aren't at home. We can do this over Pushbullet or another platform.</p>
-<p>The sample code below shows how to send the current IP.</p>
-<div class="highlight"><pre><span></span><span class="c1">-- your setup.</span>
-<span class="n">PUSHBULLET_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">&#39;</span>
-<span class="n">WIFI_SSID</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">&#39;</span>
-<span class="n">WIFI_PASSWORD</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">&#39;</span>
-
-<span class="n">wifi</span><span class="p">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">wifi</span><span class="p">.</span><span class="n">STATION</span><span class="p">)</span>
-
-<span class="c1">-- on connect send the current IP to pushbullet.</span>
-<span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">eventMonReg</span><span class="p">(</span><span class="n">wifi</span><span class="p">.</span><span class="n">STA_GOTIP</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
-    <span class="n">ip</span> <span class="o">=</span> <span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">getip</span><span class="p">()</span>
-
-    <span class="n">http</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">https://api.pushbullet.com/v2/pushes&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;</span><span class="s">Content-Type: application/json</span><span class="se">\r\n</span><span class="s">Access-Token: &#39;</span><span class="o">..</span> <span class="n">PUSHBULLET_TOKEN</span> <span class="o">..</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;</span><span class="s">{&quot;body&quot;:&quot;IP: &#39;</span><span class="o">..</span> <span class="n">ip</span> <span class="o">..</span><span class="s1">&#39;</span><span class="s">&quot;, &quot;title&quot;:&quot;ESP Connected&quot;, &quot;type&quot;:&quot;note&quot;}&#39;</span><span class="p">,</span>
-    <span class="k">function</span> <span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="c1">-- print the response code. 200 if success.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
-    <span class="k">end</span><span class="p">)</span>
-<span class="k">end</span><span class="p">)</span>
-
-<span class="c1">-- configure wifi and connect.</span>
-<span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="n">WIFI_SSID</span><span class="p">,</span> <span class="n">WIFI_PASSWORD</span><span class="p">)</span>
-<span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <p><a href="https://github.com/alexandrevicenzi/Flex">Flex theme</a> 2.0 comes with new features.
+In fact there are two new features.</p>
+<p>The biggest change is localization support.
+Yes, Flex now can be translated into your language.
+You can read about <a href="https://github.com/alexandrevicenzi/Flex/wiki/Translations">here</a>.</p>
+<p>The biggest challege was to create a way to translate without breaking old versions.
+If you use English it changes nothing for you.
+But if you want to use translation you need to add new lines to your pelican configuration file.</p>
+<p>Here is a small example to use Flex in another language.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Enable i18n plugin, probably you already have some others here.</span>
+<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i18n_subsites&#39;</span><span class="p">]</span>
+<span class="c1"># Enable Jinja2 i18n extension used to parse translations.</span>
+<span class="n">JINJA_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;jinja2.ext.i18n&#39;</span><span class="p">]</span>
+<span class="c1"># Default theme language.</span>
+<span class="n">I18N_TEMPLATES_LANG</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+<span class="c1"># Your language.</span>
+<span class="n">DEFAULT_LANG</span> <span class="o">=</span> <span class="s1">&#39;de&#39;</span>
+<span class="n">OG_LOCALE</span> <span class="o">=</span> <span class="s1">&#39;de_DE&#39;</span>
+<span class="n">LOCALE</span> <span class="o">=</span> <span class="s1">&#39;de_DE&#39;</span>
 </pre></div>
 
 
-<p>This is a very simple example but is good enough for testing purpose.</p>
-<p><strong>Reference</strong></p>
-<ul>
-<li><a href="https://docs.pushbullet.com/">Pushbullet API</a></li>
-<li><a href="https://nodemcu.readthedocs.io/en/master/en/modules/http/">NodeMCU HTTP Module</a></li>
-</ul>
+<p>Last but not least, Flex supports the feature "X minute read", similar <a href="https://medium.com/">Medium</a>.</p>
+<p>Hope you enjoy this version.</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="https://blog.alexandrevicenzi.com/tag/lua.html">lua</a>
-      <a href="https://blog.alexandrevicenzi.com/tag/nodemcu.html">nodemcu</a>
-      <a href="https://blog.alexandrevicenzi.com/tag/esp.html">esp</a>
-      <a href="https://blog.alexandrevicenzi.com/tag/pushbullet.html">pushbullet</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/pelican.html">pelican</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/python.html">python</a>
+      <a href="https://blog.alexandrevicenzi.com/tag/theme.html">theme</a>
     </p>
   </div>
 

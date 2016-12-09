@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Vicenzi's Blog</title><link href="https://blog.alexandrevicenzi.com/" rel="alternate"></link><link href="https://blog.alexandrevicenzi.com/feeds/news.atom.xml" rel="self"></link><id>https://blog.alexandrevicenzi.com/</id><updated>2016-06-10T08:00:00-04:00</updated><entry><title>Flex 1.2.0</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-1-2-0.html" rel="alternate"></link><published>2016-06-10T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-06-10:flex-pelican-theme-update-1-2-0.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Flex theme&lt;/a&gt; received some new features. Version 1.2.0 include new features and some updates.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Vicenzi's Blog</title><link href="https://blog.alexandrevicenzi.com/" rel="alternate"></link><link href="https://blog.alexandrevicenzi.com/feeds/news.atom.xml" rel="self"></link><id>https://blog.alexandrevicenzi.com/</id><updated>2016-11-16T08:00:00-05:00</updated><entry><title>Flex 2.1</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-2-1.html" rel="alternate"></link><published>2016-11-16T08:00:00-05:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-11-16:flex-pelican-theme-update-2-1.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Flex theme&lt;/a&gt; 2.1 comes with a feature that I was delaying for so long.
+Flex 2.1 adds support for Google AdSense.&lt;/p&gt;
+&lt;p&gt;If you choose wisely, ads are a way to win some money, but if not, you may loose your users due to excessive use of ads.&lt;/p&gt;
+&lt;p&gt;Flex has six places for ads. Google recommends up to 3 ads per page. There is ads page only, and banner that appears on all pages.
+Below you can see how to enable ads in your pelican configuration file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;GOOGLE_ADSENSE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;ca_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ca-pub-1234567890&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="c1"&gt;# Your AdSense ID&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;page_level_ads&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;          &lt;span class="c1"&gt;# Allow Page Level Ads (mobile)&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;ads&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;aside&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234561&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;          &lt;span class="c1"&gt;# Side bar banner (all pages)&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;main_menu&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234562&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# Banner before main menu (all pages)&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;index_top&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234563&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="c1"&gt;# Banner after main menu (index only)&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;index_bottom&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234564&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;   &lt;span class="c1"&gt;# Banner before footer (index only)&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;article_top&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234565&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="c1"&gt;# Banner after article title (article only)&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;article_bottom&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234566&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# Banner after article content (article only)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Version 2.1 also comes with new translations. You can see available translations &lt;a href="https://github.com/alexandrevicenzi/Flex/wiki/Translations"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Hope you enjoy this version.&lt;/p&gt;</summary><category term="pelican"></category><category term="python"></category><category term="theme"></category></entry><entry><title>Flex 2.0</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-2-0.html" rel="alternate"></link><published>2016-09-13T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-09-13:flex-pelican-theme-update-2-0.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Flex theme&lt;/a&gt; 2.0 comes with new features.
+In fact there are two new features.&lt;/p&gt;
+&lt;p&gt;The biggest change is localization support.
+Yes, Flex now can be translated into your language.
+You can read about &lt;a href="https://github.com/alexandrevicenzi/Flex/wiki/Translations"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The biggest challege was to create a way to translate without breaking old versions.
+If you use English it changes nothing for you.
+But if you want to use translation you need to add new lines to your pelican configuration file.&lt;/p&gt;
+&lt;p&gt;Here is a small example to use Flex in another language.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Enable i18n plugin, probably you already have some others here.&lt;/span&gt;
+&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;i18n_subsites&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;# Enable Jinja2 i18n extension used to parse translations.&lt;/span&gt;
+&lt;span class="n"&gt;JINJA_EXTENSIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;jinja2.ext.i18n&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;# Default theme language.&lt;/span&gt;
+&lt;span class="n"&gt;I18N_TEMPLATES_LANG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# Your language.&lt;/span&gt;
+&lt;span class="n"&gt;DEFAULT_LANG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;de&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;OG_LOCALE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;de_DE&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;LOCALE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;de_DE&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Last but not least, Flex supports the feature "X minute read", similar &lt;a href="https://medium.com/"&gt;Medium&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Hope you enjoy this version.&lt;/p&gt;</summary><category term="pelican"></category><category term="python"></category><category term="theme"></category></entry><entry><title>Flex 1.2.0</title><link href="https://blog.alexandrevicenzi.com/flex-pelican-theme-update-1-2-0.html" rel="alternate"></link><published>2016-06-10T08:00:00-04:00</published><author><name>Alexandre Vicenzi</name></author><id>tag:blog.alexandrevicenzi.com,2016-06-10:flex-pelican-theme-update-1-2-0.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex"&gt;Flex theme&lt;/a&gt; received some new features. Version 1.2.0 include new features and some updates.&lt;/p&gt;
 &lt;p&gt;For developers there are new color styles for your code. For general purpose there is RUM support, related posts and browser color configuration.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/alexandrevicenzi/Flex/issues/31"&gt;Update font-awesome&lt;/a&gt;&lt;/li&gt;
