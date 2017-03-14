@@ -21,7 +21,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#333333">
@@ -32,11 +32,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="Alexandre Vicenzi" />
-<meta name="description" content="After upgrading to openSUSE Tumbleweed I got an error while trying to compile a Qt project as shown below. 23:42:00: Running steps for project qt-quick... 23:42:00: Configuration unchanged, skipping qmake step. 23:42:00: Starting: "/usr/bin/make" /home/alexandre/Qt/5.7/gcc_64/bin/rcc ..." />
+<meta name="description" content="After upgrading to openSUSE Tumbleweed I got an error while trying to compile a Qt project as shown below. 23:42:00: Running steps for project qt-quick... 23:42:00: Configuration unchanged, skipping qmake step. 23:42:00: Starting: "/usr/bin/make" /home/alexandre/Qt/5.7/gcc_64/bin/rcc …" />
 <meta name="keywords" content="qt5, c, c++, opensuse">
 <meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
 <meta property="og:title" content="Qt Designer error: cannot find -lGL"/>
-<meta property="og:description" content="After upgrading to openSUSE Tumbleweed I got an error while trying to compile a Qt project as shown below. 23:42:00: Running steps for project qt-quick... 23:42:00: Configuration unchanged, skipping qmake step. 23:42:00: Starting: "/usr/bin/make" /home/alexandre/Qt/5.7/gcc_64/bin/rcc ..."/>
+<meta property="og:description" content="After upgrading to openSUSE Tumbleweed I got an error while trying to compile a Qt project as shown below. 23:42:00: Running steps for project qt-quick... 23:42:00: Configuration unchanged, skipping qmake step. 23:42:00: Starting: "/usr/bin/make" /home/alexandre/Qt/5.7/gcc_64/bin/rcc …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://blog.alexandrevicenzi.com/qt-designer-compile-error.html"/>
 <meta property="og:type" content="article"/>
@@ -68,7 +68,7 @@
       </a>
       <h1><a href="https://blog.alexandrevicenzi.com">Alexandre Vicenzi</a></h1>
 
-<p>Sotfware Engineer - Maker</p>
+<p>Software Engineer</p>
       <nav>
         <ul class="list">
           <li><a href="https://blog.alexandrevicenzi.com/pages/about.html#about">About</a></li>
@@ -99,15 +99,13 @@
   <main>
 
     <nav>
-      <a href="https://blog.alexandrevicenzi.com">    Home
-</a>
+      <a href="https://blog.alexandrevicenzi.com">Home</a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
-      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">    Atom
-</a>
+      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">Atom</a>
 
     </nav>
 
@@ -115,8 +113,7 @@
   <header>
     <h1 id="qt-designer-compile-error">Qt Designer error: cannot find -lGL</h1>
     <p>
-          Posted on July 31, 2016 in <a href="https://blog.alexandrevicenzi.com/category/dev.html">Dev</a>
-
+      Posted on July 31, 2016 in <a href="https://blog.alexandrevicenzi.com/category/dev.html">Dev</a>
 
         &#8226; 1 min read
     </p>
@@ -125,19 +122,19 @@
 
   <div>
     <p>After upgrading to openSUSE Tumbleweed I got an error while trying to compile a Qt project as shown below.</p>
-<div class="highlight"><pre><span></span>23:42:00: Running steps <span class="k">for</span> project qt-quick...
-23:42:00: Configuration unchanged, skipping qmake step.
-23:42:00: Starting: <span class="s2">&quot;/usr/bin/make&quot;</span> 
+<div class="highlight"><pre><span></span><span class="m">23</span>:42:00: Running steps <span class="k">for</span> project qt-quick...
+<span class="m">23</span>:42:00: Configuration unchanged, skipping qmake step.
+<span class="m">23</span>:42:00: Starting: <span class="s2">&quot;/usr/bin/make&quot;</span> 
 /home/alexandre/Qt/5.7/gcc_64/bin/rcc -name qml ../qt-quick/qml.qrc -o qrc_qml.cpp
 g++ -c -pipe -g -std<span class="o">=</span>gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -I../qt-quick -I. -I../../Qt/5.7/gcc_64/include -I../../Qt/5.7/gcc_64/include/QtQuick -I../../Qt/5.7/gcc_64/include/QtGui -I../../Qt/5.7/gcc_64/include/QtQml -I../../Qt/5.7/gcc_64/include/QtNetwork -I../../Qt/5.7/gcc_64/include/QtCore -I. -I../../Qt/5.7/gcc_64/mkspecs/linux-g++ -o qrc_qml.o qrc_qml.cpp
 g++ -Wl,-rpath,/home/alexandre/Qt/5.7/gcc_64/lib -o qt-quick main.o qrc_qml.o   -L/home/alexandre/Qt/5.7/gcc_64/lib -lQt5Quick -L/usr/lib64 -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lGL -lpthread 
 /usr/lib64/gcc/x86_64-suse-linux/6/../../../../x86_64-suse-linux/bin/ld: cannot find -lGL
 collect2: error: ld returned <span class="m">1</span> <span class="nb">exit</span> status
-make: *** <span class="o">[</span>Makefile:210: qt-quick<span class="o">]</span> Error 1
-23:42:00: The process <span class="s2">&quot;/usr/bin/make&quot;</span> exited with code 2.
-Error <span class="k">while</span> building/deploying project qt-quick <span class="o">(</span>kit: Desktop Qt 5.7.0 GCC 64bit<span class="o">)</span>
+make: *** <span class="o">[</span>Makefile:210: qt-quick<span class="o">]</span> Error <span class="m">1</span>
+<span class="m">23</span>:42:00: The process <span class="s2">&quot;/usr/bin/make&quot;</span> exited with code <span class="m">2</span>.
+Error <span class="k">while</span> building/deploying project qt-quick <span class="o">(</span>kit: Desktop Qt <span class="m">5</span>.7.0 GCC 64bit<span class="o">)</span>
 When executing step <span class="s2">&quot;Make&quot;</span>
-23:42:00: Elapsed time: 00:00.
+<span class="m">23</span>:42:00: Elapsed time: <span class="m">00</span>:00.
 </pre></div>
 
 
@@ -159,10 +156,10 @@ When executing step <span class="s2">&quot;Make&quot;</span>
   </div>
 
   <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
-</p>
+    <p>Like this article? Share it with your friends!</p>
     <div class="addthis_native_toolbox"></div>
     <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
   </div>
 
 
@@ -184,8 +181,7 @@ When executing step <span class="s2">&quot;Make&quot;</span>
     })();
 </script>
 <noscript>
-        Please enable JavaScript to view comments.
-
+    Please enable JavaScript to view comments.
 </noscript>
 </article>
 
@@ -193,8 +189,7 @@ When executing step <span class="s2">&quot;Make&quot;</span>
 <p>
   &copy; Alexandre Vicenzi 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
 </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p><p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p><p>
   <a rel="license"
      href="http://creativecommons.org/licenses/by-sa/4.0/"
      target="_blank">
@@ -240,5 +235,6 @@ When executing step <span class="s2">&quot;Make&quot;</span>
   "description": "Alexandre Vicenzi's Thoughts and Writings"
 }
 </script>
+
 </body>
 </html>

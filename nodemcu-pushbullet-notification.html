@@ -21,7 +21,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#333333">
@@ -32,11 +32,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="Alexandre Vicenzi" />
-<meta name="description" content="With NodeMCU HTTP Module we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request. Today, we're going to call Pushbullet API. So, what's Pushbullet? Pushbullet bridges ..." />
+<meta name="description" content="With NodeMCU HTTP Module we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request. Today, we're going to call Pushbullet API. So, what's Pushbullet? Pushbullet bridges the gap …" />
 <meta name="keywords" content="lua, nodemcu, esp, pushbullet">
 <meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
 <meta property="og:title" content="Posting to Pushbullet with NodeMCU"/>
-<meta property="og:description" content="With NodeMCU HTTP Module we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request. Today, we're going to call Pushbullet API. So, what's Pushbullet? Pushbullet bridges ..."/>
+<meta property="og:description" content="With NodeMCU HTTP Module we can GET/POST/PUT/DELETE over HTTP(S), as well as customized requests. If you ever used any other programming language you know how easy is to make an HTTP request. Today, we're going to call Pushbullet API. So, what's Pushbullet? Pushbullet bridges the gap …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://blog.alexandrevicenzi.com/nodemcu-pushbullet-notification.html"/>
 <meta property="og:type" content="article"/>
@@ -68,7 +68,7 @@
       </a>
       <h1><a href="https://blog.alexandrevicenzi.com">Alexandre Vicenzi</a></h1>
 
-<p>Sotfware Engineer - Maker</p>
+<p>Software Engineer</p>
       <nav>
         <ul class="list">
           <li><a href="https://blog.alexandrevicenzi.com/pages/about.html#about">About</a></li>
@@ -99,15 +99,13 @@
   <main>
 
     <nav>
-      <a href="https://blog.alexandrevicenzi.com">    Home
-</a>
+      <a href="https://blog.alexandrevicenzi.com">Home</a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
-      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">    Atom
-</a>
+      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">Atom</a>
 
     </nav>
 
@@ -115,8 +113,7 @@
   <header>
     <h1 id="nodemcu-pushbullet-notification">Posting to Pushbullet with NodeMCU</h1>
     <p>
-          Posted on August 24, 2016 in <a href="https://blog.alexandrevicenzi.com/category/embedded-systems.html">Embedded Systems</a>
-
+      Posted on August 24, 2016 in <a href="https://blog.alexandrevicenzi.com/category/embedded-systems.html">Embedded Systems</a>
 
         &#8226; 1 min read
     </p>
@@ -132,24 +129,24 @@
 <p>Pushbullet is a great tool to get notifications on your phone. Let's assume we have a fire sensor at home. If the fire sensor detects something, it would be good to be notified if we aren't at home. We can do this over Pushbullet or another platform.</p>
 <p>The sample code below shows how to send the current IP.</p>
 <div class="highlight"><pre><span></span><span class="c1">-- your setup.</span>
-<span class="n">PUSHBULLET_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">&#39;</span>
-<span class="n">WIFI_SSID</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">&#39;</span>
-<span class="n">WIFI_PASSWORD</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">&#39;</span>
+<span class="n">PUSHBULLET_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="n">WIFI_SSID</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="n">WIFI_PASSWORD</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
 <span class="n">wifi</span><span class="p">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">wifi</span><span class="p">.</span><span class="n">STATION</span><span class="p">)</span>
 
 <span class="c1">-- on connect send the current IP to pushbullet.</span>
-<span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">eventMonReg</span><span class="p">(</span><span class="n">wifi</span><span class="p">.</span><span class="n">STA_GOTIP</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+<span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">eventMonReg</span><span class="p">(</span><span class="n">wifi</span><span class="p">.</span><span class="n">STA_GOTIP</span><span class="p">,</span> <span class="kr">function</span><span class="p">()</span>
     <span class="n">ip</span> <span class="o">=</span> <span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">getip</span><span class="p">()</span>
 
-    <span class="n">http</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">https://api.pushbullet.com/v2/pushes&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;</span><span class="s">Content-Type: application/json</span><span class="se">\r\n</span><span class="s">Access-Token: &#39;</span><span class="o">..</span> <span class="n">PUSHBULLET_TOKEN</span> <span class="o">..</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;</span><span class="s">{&quot;body&quot;:&quot;IP: &#39;</span><span class="o">..</span> <span class="n">ip</span> <span class="o">..</span><span class="s1">&#39;</span><span class="s">&quot;, &quot;title&quot;:&quot;ESP Connected&quot;, &quot;type&quot;:&quot;note&quot;}&#39;</span><span class="p">,</span>
-    <span class="k">function</span> <span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">http</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;https://api.pushbullet.com/v2/pushes&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;Content-Type: application/json</span><span class="se">\r\n</span><span class="s1">Access-Token: &#39;</span><span class="o">..</span> <span class="n">PUSHBULLET_TOKEN</span> <span class="o">..</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;{&quot;body&quot;:&quot;IP: &#39;</span><span class="o">..</span> <span class="n">ip</span> <span class="o">..</span><span class="s1">&#39;&quot;, &quot;title&quot;:&quot;ESP Connected&quot;, &quot;type&quot;:&quot;note&quot;}&#39;</span><span class="p">,</span>
+    <span class="kr">function</span> <span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
         <span class="c1">-- print the response code. 200 if success.</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
-    <span class="k">end</span><span class="p">)</span>
-<span class="k">end</span><span class="p">)</span>
+    <span class="kr">end</span><span class="p">)</span>
+<span class="kr">end</span><span class="p">)</span>
 
 <span class="c1">-- configure wifi and connect.</span>
 <span class="n">wifi</span><span class="p">.</span><span class="n">sta</span><span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="n">WIFI_SSID</span><span class="p">,</span> <span class="n">WIFI_PASSWORD</span><span class="p">)</span>
@@ -174,10 +171,10 @@
   </div>
 
   <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
-</p>
+    <p>Like this article? Share it with your friends!</p>
     <div class="addthis_native_toolbox"></div>
     <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
   </div>
 
 
@@ -199,8 +196,7 @@
     })();
 </script>
 <noscript>
-        Please enable JavaScript to view comments.
-
+    Please enable JavaScript to view comments.
 </noscript>
 </article>
 
@@ -208,8 +204,7 @@
 <p>
   &copy; Alexandre Vicenzi 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
 </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p><p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p><p>
   <a rel="license"
      href="http://creativecommons.org/licenses/by-sa/4.0/"
      target="_blank">
@@ -255,5 +250,6 @@
   "description": "Alexandre Vicenzi's Thoughts and Writings"
 }
 </script>
+
 </body>
 </html>

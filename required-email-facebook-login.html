@@ -21,7 +21,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#333333">
@@ -32,11 +32,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="Alexandre Vicenzi" />
-<meta name="description" content="If your software uses Facebook login you know that users can grant or decline permissions. The public_profile is default and you can get basic info about the user, such as user's name for example. You can also request more permissions in the scope. One very useful is email permission ..." />
+<meta name="description" content="If your software uses Facebook login you know that users can grant or decline permissions. The public_profile is default and you can get basic info about the user, such as user's name for example. You can also request more permissions in the scope. One very useful is email permission, which …" />
 <meta name="keywords" content="oauth, python, tornado, facebook, social">
 <meta property="og:site_name" content="Alexandre Vicenzi's Blog"/>
 <meta property="og:title" content="Make email permission required when signing in with Facebook"/>
-<meta property="og:description" content="If your software uses Facebook login you know that users can grant or decline permissions. The public_profile is default and you can get basic info about the user, such as user's name for example. You can also request more permissions in the scope. One very useful is email permission ..."/>
+<meta property="og:description" content="If your software uses Facebook login you know that users can grant or decline permissions. The public_profile is default and you can get basic info about the user, such as user's name for example. You can also request more permissions in the scope. One very useful is email permission, which …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://blog.alexandrevicenzi.com/required-email-facebook-login.html"/>
 <meta property="og:type" content="article"/>
@@ -69,7 +69,7 @@
       </a>
       <h1><a href="https://blog.alexandrevicenzi.com">Alexandre Vicenzi</a></h1>
 
-<p>Sotfware Engineer - Maker</p>
+<p>Software Engineer</p>
       <nav>
         <ul class="list">
           <li><a href="https://blog.alexandrevicenzi.com/pages/about.html#about">About</a></li>
@@ -100,15 +100,13 @@
   <main>
 
     <nav>
-      <a href="https://blog.alexandrevicenzi.com">    Home
-</a>
+      <a href="https://blog.alexandrevicenzi.com">Home</a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
-      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">    Atom
-</a>
+      <a href="https://blog.alexandrevicenzi.com/feeds/all.atom.xml">Atom</a>
 
     </nav>
 
@@ -116,8 +114,7 @@
   <header>
     <h1 id="required-email-facebook-login">Make email permission required when signing in with Facebook</h1>
     <p>
-          Posted on August 21, 2016 in <a href="https://blog.alexandrevicenzi.com/category/dev.html">Dev</a>
-
+      Posted on August 21, 2016 in <a href="https://blog.alexandrevicenzi.com/category/dev.html">Dev</a>
 
         &#8226; 3 min read
     </p>
@@ -127,7 +124,7 @@
   <div>
     <p>If your software uses <a href="https://developers.facebook.com/docs/facebook-login/overview">Facebook login</a> you know that users can grant or decline <a href="https://developers.facebook.com/docs/facebook-login/permissions/overview">permissions</a>. The <em>public_profile</em> is default and you can get basic info about the user, such as user's name for example.</p>
 <p>You can also request more permissions in the scope. One very useful is <a href="https://developers.facebook.com/docs/facebook-login/permissions#reference-email"><em>email</em></a> permission, which gives you access to user primary email. The thing about email is, the user doesn't need to allow an app to access this data.</p>
-<p><img alt="Facebook permission declined" class="img-center" src="images/facebook-permissions-declined.png" /></p>
+<p><img alt="Facebook permission declined" class="img-center" src="images/facebook-permissions-declined.png"></p>
 <p>As you can see, any additional permission can be declined by users. If you want the email, you can have another problem:</p>
 <blockquote>
 <p>Even if you request the email permission it is not guaranteed you will get an email address. For example, if someone signed up for Facebook with a phone number instead of an email address, the email field may be empty.</p>
@@ -140,7 +137,7 @@
 <p>If the user declines some permission we can ask it again using the URL below.</p>
 <p><a href="#">https://www.facebook.com/dialog/oauth?auth_type=rerequest&amp;scope=email&amp;redirect_uri=http://localhost:8888/login&amp;response_type=code&amp;client_id=1234567890</a></p>
 <p>And the result will be as below.</p>
-<p><img alt="Facebook email retry" class="img-center" src="images/facebook-email-retry.png" /></p>
+<p><img alt="Facebook email retry" class="img-center" src="images/facebook-email-retry.png"></p>
 <p>As you can see, the user can't proceed without granting permission to email. This is done by <code>auth_type=rerequest</code> parameter, which requests the permission again.</p>
 <p>In practice, it will work like the example below. I'm using <a href="http://www.tornadoweb.org/en/stable/">Tornado</a> 4.4, but you can do this in most languages that have support for Facebook OAuth.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
@@ -247,12 +244,12 @@
 
 <span class="k">def</span> <span class="nf">make_app</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">([</span>
-        <span class="p">(</span><span class="s1">r&#39;/&#39;</span><span class="p">,</span> <span class="n">MainHandler</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">r&#39;/login&#39;</span><span class="p">,</span> <span class="n">FacebookLoginHandler</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">MainHandler</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">FacebookLoginHandler</span><span class="p">),</span>
     <span class="p">],</span> <span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">make_app</span><span class="p">()</span>
     <span class="n">app</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">8888</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Server running at http://localhost:8888/&#39;</span><span class="p">)</span>
@@ -277,10 +274,10 @@
   </div>
 
   <div class="center social-share">
-    <p>    Like this article? Share it with your friends!
-</p>
+    <p>Like this article? Share it with your friends!</p>
     <div class="addthis_native_toolbox"></div>
     <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
   </div>
 
 
@@ -302,8 +299,7 @@
     })();
 </script>
 <noscript>
-        Please enable JavaScript to view comments.
-
+    Please enable JavaScript to view comments.
 </noscript>
 </article>
 
@@ -311,8 +307,7 @@
 <p>
   &copy; Alexandre Vicenzi 2016 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
 </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p><p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p><p>
   <a rel="license"
      href="http://creativecommons.org/licenses/by-sa/4.0/"
      target="_blank">
@@ -358,5 +353,6 @@
   "description": "Alexandre Vicenzi's Thoughts and Writings"
 }
 </script>
+
 </body>
 </html>
